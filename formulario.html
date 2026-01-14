@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Traductor a Slack</title>
+</head>
+<body>
+  <h2>Escribe el mensaje a traducir:</h2>
+
+  <!-- Campo de texto y botón -->
+  <form id="traductorForm">
+    <input type="text" id="mensaje" placeholder="Escribe tu mensaje aquí" required>
+    <button type="submit">Traducir</button>
+  </form>
+
+  <script>
+    // Captura el formulario
+    const form = document.getElementById('traductorForm');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Evita que la página se recargue
+
+      // Toma el mensaje que escribiste
+      const mensaje = document.getElementById('mensaje').value;
+
+      // Envía el mensaje al Webhook de n8n usando POST
+      fetch("https://anicsa14yyy.app.n8n.cloud/webhook-test/traducir", {
+        method: "POST", // ⚡ IMPORTANTE: POST
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texto: mensaje }) // ⚡ aquí va el mensaje
+      })
+      .then(res => res.text())
+      .then(data => alert("Mensaje enviado a Slack!"))
+      .catch(err => alert("Error: " + err));
+    });
+  </script>
+</body>
+</html>
